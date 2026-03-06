@@ -1,0 +1,730 @@
+{
+  "main": {
+    "id": "9bb24958584fafa1",
+    "type": "split",
+    "children": [
+      {
+        "id": "07a2832c84cabc23",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7f9f6ea7fa9b639a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/01 Requirements/functional_requirements.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "functional_requirements"
+            }
+          },
+          {
+            "id": "61aa8b653c8f95fc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/01 Requirements/non_functional_requirements.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "non_functional_requirements"
+            }
+          },
+          {
+            "id": "183ad80013b05885",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/01 Requirements/user_roles.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "user_roles"
+            }
+          },
+          {
+            "id": "af0080194a3245a2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/driver.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "driver"
+            }
+          },
+          {
+            "id": "c35666e6e087bec9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/vehicle.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "vehicle"
+            }
+          },
+          {
+            "id": "9e5c454191fc9af3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/customer.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "customer"
+            }
+          },
+          {
+            "id": "51d87dd2b7f4210f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/order.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "order"
+            }
+          },
+          {
+            "id": "c83ed10968ff4688",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/trip.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "trip"
+            }
+          },
+          {
+            "id": "c9fecb5b8c77a49e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/stop.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "stop"
+            }
+          },
+          {
+            "id": "b297bf61312a2211",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/customer.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "customer"
+            }
+          },
+          {
+            "id": "5cafedbe5fe28b44",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/03 Architecture/system_overview.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "system_overview"
+            }
+          },
+          {
+            "id": "7bd544da365918c4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/03 Architecture/microservices_architecture.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "microservices_architecture"
+            }
+          },
+          {
+            "id": "9738c6f1fc2820d5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/03 Architecture/event_architecture.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "event_architecture"
+            }
+          },
+          {
+            "id": "3f7e469128320d4d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/03 Architecture/security.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "security"
+            }
+          },
+          {
+            "id": "117ff46ccc3a955b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/03 Architecture/system_overview.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "system_overview"
+            }
+          },
+          {
+            "id": "f806a2f9d6dce3dd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/04 Srevices/trip_service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "trip_service"
+            }
+          },
+          {
+            "id": "ae259566d9c2d182",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/04 Srevices/order_service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "order_service"
+            }
+          },
+          {
+            "id": "3616a4109bb4a8da",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/04 Srevices/master_data_service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "master_data_service"
+            }
+          },
+          {
+            "id": "2b3aa19a200fa8af",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/04 Srevices/identity_service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "identity_service"
+            }
+          },
+          {
+            "id": "372890f74164830b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/04 Srevices/trip_service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "trip_service"
+            }
+          },
+          {
+            "id": "cc4e010316b8521c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/05 API/trip_service_api.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "trip_service_api"
+            }
+          },
+          {
+            "id": "5dcab220e8f0c9b1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/05 API/order_service_api.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "order_service_api"
+            }
+          },
+          {
+            "id": "b8db69e150a2bde3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/05 API/master_data_api.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "master_data_api"
+            }
+          },
+          {
+            "id": "27894906c062554c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/06 Decisions/ADR_001_database.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ADR_001_database"
+            }
+          },
+          {
+            "id": "564985695dcfad9d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/06 Decisions/ADR_002 microservices.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ADR_002 microservices"
+            }
+          },
+          {
+            "id": "4cce016bd7ff322a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/06 Decisions/ADR_003_event_model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ADR_003_event_model"
+            }
+          },
+          {
+            "id": "d65c8c3f57003b08",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/07 Roadmap/MVP.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "MVP"
+            }
+          },
+          {
+            "id": "698474abe26dd5b0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/07 Roadmap/v2_dispatch.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "v2_dispatch"
+            }
+          },
+          {
+            "id": "e5dd51377536b386",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/07 Roadmap/v3_billing.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "v3_billing"
+            }
+          },
+          {
+            "id": "14b19d293bf3c190",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/07 Roadmap/future_ideas.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "future_ideas"
+            }
+          },
+          {
+            "id": "739f9efb4f322412",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/08 Diagrams/system_context.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "system_context"
+            }
+          },
+          {
+            "id": "40497c290cda16aa",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/08 Diagrams/container_digram.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "container_digram"
+            }
+          },
+          {
+            "id": "51ddf0b69c336bf5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/08 Diagrams/domain_model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "domain_model"
+            }
+          },
+          {
+            "id": "01b3af9acbca411a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/08 Diagrams/container_digram.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "container_digram"
+            }
+          },
+          {
+            "id": "3f07ded36f822c97",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/09 Notes/ideas.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ideas"
+            }
+          },
+          {
+            "id": "0f2952c1829a3c32",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/09 Notes/improvements.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "improvements"
+            }
+          },
+          {
+            "id": "c8b9c84ff0f01757",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "obsidian-vault/02 Domain/domain_overview.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "domain_overview"
+            }
+          }
+        ],
+        "currentTab": 36
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b0829d5f345778bc",
+    "type": "split",
+    "children": [
+      {
+        "id": "4796620000111e59",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "381d5f5dd66105b9",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "80465980be3c5c9b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "ef5ab5abdc4c96d2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b21a12366231604e",
+    "type": "split",
+    "children": [
+      {
+        "id": "6faeef633eea656b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8c6d8020fc1f5208",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "obsidian-vault/02 Domain/domain_overview.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for domain_overview"
+            }
+          },
+          {
+            "id": "29a0a94aed8e92f7",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "obsidian-vault/02 Domain/domain_overview.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from domain_overview"
+            }
+          },
+          {
+            "id": "940a8de36276f167",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "c9e7c1320083cbc6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "55bc8130a45d51e8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "obsidian-vault/02 Domain/domain_overview.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of domain_overview"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "c8b9c84ff0f01757",
+  "lastOpenFiles": [
+    "obsidian-vault/02 Domain/trailer.md",
+    "obsidian-vault/02 Domain/vehicle.md",
+    "obsidian-vault/02 Domain/driver.md",
+    "obsidian-vault/02 Domain/location.md",
+    "obsidian-vault/02 Domain/customer.md",
+    "obsidian-vault/02 Domain/address.md",
+    "obsidian-vault/02 Domain/document.md",
+    "obsidian-vault/03 Architecture/postgres_schema_mvp.md",
+    "obsidian-vault/08 Diagrams/erd_mvp.md",
+    "obsidian-vault/02 Domain/domain_overview.md",
+    "obsidian-vault/02 Domain/order.md",
+    "obsidian-vault/02 Domain/stop.md",
+    "obsidian-vault/02 Domain/trip.md",
+    "obsidian-vault/02 Domain/trip_event.md",
+    "obsidian-vault/03 Architecture/data_architecture.md",
+    "obsidian-vault/03 Architecture/event_architecture.md",
+    "obsidian-vault/03 Architecture/microservices_architecture.md",
+    "obsidian-vault/03 Architecture/security.md",
+    "obsidian-vault/03 Architecture/system_overview.md",
+    "obsidian-vault/04 Services/document_service.md",
+    "obsidian-vault/04 Services/identity_service.md",
+    "obsidian-vault/04 Services/master_data_service.md",
+    "obsidian-vault/04 Services/order_service.md",
+    "obsidian-vault/04 Services/trip_service.md",
+    "obsidian-vault/05 API/master_data_api.md",
+    "obsidian-vault/05 API/order_service_api.md",
+    "Untitled.base",
+    "obsidian-vault/02 Domain/domain_overview",
+    "obsidian-vault/09 Notes",
+    "obsidian-vault/08 Diagrams",
+    "obsidian-vault/07 Roadmap",
+    "obsidian-vault/05 API",
+    "obsidian-vault/06 Decisions",
+    "obsidian-vault/04 Services",
+    "obsidian-vault/03 Architecture",
+    "obsidian-vault/02 Domain"
+  ]
+}
