@@ -1,0 +1,7 @@
+.idea/
+*.iml
+build/
+.gradle/
+out/
+*.zip
+docs/obsidian-vault/.obsidian/
