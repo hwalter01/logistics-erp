@@ -2,8 +2,9 @@ package com.logistics.masterdataservice.controller;
 
 import com.logistics.masterdataservice.domain.enums.TrailerStatus;
 import com.logistics.masterdataservice.domain.enums.TrailerType;
+import com.logistics.masterdataservice.dto.request.createrequest.TrailerCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.TrailerUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.TrailerRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.TrailerSearchRequest;
 import com.logistics.masterdataservice.dto.response.TrailerResponse;
 import com.logistics.masterdataservice.service.TrailerService;
@@ -39,7 +40,7 @@ public class TrailerController {
     @ApiResponse(responseCode = "200", description = "Trailer created successfully")
     @ApiResponse(responseCode = "400", description = "Validation error")
     @ApiResponse(responseCode = "409", description = "Duplicate trailer number")
-    public TrailerResponse create(@Valid @RequestBody TrailerRequest request) {
+    public TrailerResponse create(@Valid @RequestBody TrailerCreateRequest request) {
         return trailerService.create(request);
     }
 
@@ -86,7 +87,7 @@ public class TrailerController {
     @ApiResponse(responseCode = "409", description = "Duplicate trailer number")
     public TrailerResponse update(
             @PathVariable UUID trailerId,
-            @Valid @RequestBody TrailerRequest request
+            @Valid @RequestBody TrailerUpdateRequest request
     ) {
         return trailerService.update(trailerId, request);
     }

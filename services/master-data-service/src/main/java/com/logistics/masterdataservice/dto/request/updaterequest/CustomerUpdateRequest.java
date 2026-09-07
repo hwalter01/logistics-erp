@@ -1,4 +1,4 @@
-package com.logistics.masterdataservice.dto.request;
+package com.logistics.masterdataservice.dto.request.updaterequest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Schema(description = "Request payload for creating or updating a customer")
-public record CustomerRequest(
+public record CustomerUpdateRequest(
 
-        @Schema(description = "Unique customer business number", example = "CUST-1001")
-        @NotBlank
-        String customerNumber,
+//        @Schema(description = "Unique customer business number", example = "CUST-1001")
+//        @NotBlank
+//        String customerNumber,
 
         @Schema(description = "Customer display name", example = "NordSteel GmbH")
         @NotBlank

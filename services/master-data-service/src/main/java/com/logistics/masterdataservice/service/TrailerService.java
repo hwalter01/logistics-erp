@@ -1,8 +1,9 @@
 package com.logistics.masterdataservice.service;
 
 import com.logistics.masterdataservice.domain.Trailer;
+import com.logistics.masterdataservice.dto.request.createrequest.TrailerCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.TrailerUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.TrailerRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.TrailerSearchRequest;
 import com.logistics.masterdataservice.dto.response.TrailerResponse;
 import com.logistics.masterdataservice.exception.DuplicateResourceException;
@@ -14,15 +15,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TrailerService {
     private final TrailerRepository trailerRepository;
 
-    public TrailerResponse create(TrailerRequest request){
+    @Transactional
+    public TrailerResponse create(TrailerCreateRequest request){
         validateTrailerNumber(request.trailerNumber());
         Trailer trailer = TrailerMapper.toEntity(request);
         Trailer saved  = trailerRepository.save(trailer);
@@ -51,18 +55,16 @@ public class TrailerService {
         );
     }
 
+    @Transactional
     public TrailerResponse delete(UUID trailerId) {
         Trailer trailer = loadTrailer(trailerId);
         trailerRepository.delete(trailer);
         return TrailerMapper.toResponse(trailer);
     }
 
-    public TrailerResponse update(UUID trailerId, TrailerRequest request) {
+    @Transactional
+    public TrailerResponse update(UUID trailerId, TrailerUpdateRequest request) {
         Trailer trailer = loadTrailer(trailerId);
-
-        if (!request.trailerNumber().equals(trailer.getTrailerNumber())) {
-            validateTrailerNumber(request.trailerNumber());
-        }
 
         applyTrailerUpdates(trailer, request);
         Trailer saved  = trailerRepository.save(trailer);
@@ -82,8 +84,7 @@ public class TrailerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Trailer",  trailerId));
     }
 
-    private void applyTrailerUpdates(Trailer trailer, TrailerRequest request){
-        trailer.setTrailerNumber(request.trailerNumber());
+    private void applyTrailerUpdates(Trailer trailer, TrailerUpdateRequest request){
         trailer.setLicensePlate(request.licensePlate());
         trailer.setTrailerType(request.trailerType());
         trailer.setStatus(request.status());

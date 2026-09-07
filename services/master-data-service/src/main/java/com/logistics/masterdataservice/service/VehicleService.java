@@ -1,8 +1,9 @@
 package com.logistics.masterdataservice.service;
 
 import com.logistics.masterdataservice.domain.Vehicle;
+import com.logistics.masterdataservice.dto.request.createrequest.VehicleCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.VehicleUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.VehicleRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.VehicleSearchRequest;
 import com.logistics.masterdataservice.dto.response.VehicleResponse;
 import com.logistics.masterdataservice.exception.DuplicateResourceException;
@@ -14,16 +15,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
 
-    public VehicleResponse create(VehicleRequest request){
+    @Transactional
+    public VehicleResponse create(VehicleCreateRequest request){
         validateVehicleNumber(request.vehicleNumber());
         Vehicle vehicle = VehicleMapper.toEntity(request);
         Vehicle saved  = vehicleRepository.save(vehicle);
@@ -53,17 +57,17 @@ public class VehicleService {
         );
     }
 
+    @Transactional
     public VehicleResponse delete(UUID vehicleId) {
         Vehicle vehicle = loadVehicle(vehicleId);
         vehicleRepository.delete(vehicle);
         return VehicleMapper.toResponse(vehicle);
     }
 
-    public VehicleResponse update(UUID vehicleId, VehicleRequest request){
+    @Transactional
+    public VehicleResponse update(UUID vehicleId, VehicleUpdateRequest request){
         Vehicle vehicle = loadVehicle(vehicleId);
-        if (!request.vehicleNumber().equals(vehicle.getVehicleNumber())) {
-            validateVehicleNumber(request.vehicleNumber());
-        }
+
         applyVehicleUpdates(vehicle, request);
         Vehicle saved  = vehicleRepository.save(vehicle);
         return VehicleMapper.toResponse(saved);
@@ -82,8 +86,7 @@ public class VehicleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle",  vehicleId));
     }
 
-    private void applyVehicleUpdates(Vehicle vehicle, VehicleRequest request){
-        vehicle.setVehicleNumber(request.vehicleNumber());
+    private void applyVehicleUpdates(Vehicle vehicle, VehicleUpdateRequest request){
         vehicle.setLicensePlate(request.licensePlate());
         vehicle.setVin(request.vin());
         vehicle.setBrand(request.brand());

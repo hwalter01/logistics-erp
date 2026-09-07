@@ -2,8 +2,9 @@ package com.logistics.masterdataservice.service;
 
 import com.logistics.masterdataservice.domain.Address;
 import com.logistics.masterdataservice.domain.Customer;
+import com.logistics.masterdataservice.dto.request.createrequest.CustomerCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.CustomerUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.CustomerRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.CustomerSearchRequest;
 import com.logistics.masterdataservice.dto.response.CustomerResponse;
 import com.logistics.masterdataservice.exception.DuplicateResourceException;
@@ -16,17 +17,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CustomerService {
 
     private final AddressRepository addressRepository;
     private final CustomerRepository customerRepository;
 
-    public CustomerResponse create(CustomerRequest request){
+    /*
+    *   Write Block
+    */
+    @Transactional
+    public CustomerResponse create(CustomerCreateRequest request){
         validateCustomerNumber(request.customerNumber());
 
         Address address = loadAddress(request.addressId());
@@ -38,6 +45,30 @@ public class CustomerService {
         return CustomerMapper.toResponse(saved);
     }
 
+    @Transactional
+    public CustomerResponse delete(UUID customerId) {
+        Customer customer = loadCustomer(customerId);
+
+        customerRepository.delete(customer);
+
+        return CustomerMapper.toResponse(customer);
+    }
+
+    @Transactional
+    public CustomerResponse update(UUID customerId, CustomerUpdateRequest request) {
+        Customer customer = loadCustomer(customerId);
+        Address address = loadAddress(request.addressId());
+
+        applyCustomerUpdates(customer, request, address);
+        Customer saved =  customerRepository.save(customer);
+
+        return CustomerMapper.toResponse(saved);
+    }
+
+
+    /*
+     *  Read Block
+     */
     public CustomerResponse getById(UUID customerId){
         Customer customer = loadCustomer(customerId);
 
@@ -75,28 +106,19 @@ public class CustomerService {
         );
     }
 
-    public CustomerResponse delete(UUID customerId) {
-        Customer customer = loadCustomer(customerId);
-
-        customerRepository.delete(customer);
-
-        return CustomerMapper.toResponse(customer);
+    public void applyCustomerUpdates(Customer customer, CustomerUpdateRequest request, Address address){
+        customer.setName(request.name());
+        customer.setVatNumber(request.vatNumber());
+        customer.setContactEmail(request.contactEmail());
+        customer.setContactPhone(request.contactPhone());
+        customer.setPodRequired(request.podRequired());
+        customer.setAddress(address);
+        customer.setNotes(request.notes());
     }
 
-    public CustomerResponse update(UUID customerId, CustomerRequest request) {
-        Customer customer = loadCustomer(customerId);
-        Address address = loadAddress(request.addressId());
-
-        //check if the new customer number is already used, if it is different from the previous
-        if (!request.customerNumber().equals(customer.getCustomerNumber())) {
-            validateCustomerNumber(customer.getCustomerNumber());
-        }
-        applyCustomerUpdates(customer, request, address);
-        Customer saved =  customerRepository.save(customer);
-
-        return CustomerMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private Customer loadCustomer(UUID customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer",  customerId));
@@ -113,15 +135,5 @@ public class CustomerService {
                     "Customer number already exists: " + customerNumber
             );
         }
-    }
-
-    public void applyCustomerUpdates(Customer customer, CustomerRequest request, Address address){
-        customer.setCustomerNumber(request.customerNumber());
-        customer.setName(request.name());
-        customer.setVatNumber(request.vatNumber());
-        customer.setContactEmail(request.contactEmail());
-        customer.setContactPhone(request.contactPhone());
-        customer.setPodRequired(request.podRequired());
-        customer.setAddress(address);
     }
 }

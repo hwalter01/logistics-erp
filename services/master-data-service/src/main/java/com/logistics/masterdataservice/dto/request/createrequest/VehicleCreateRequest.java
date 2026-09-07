@@ -1,4 +1,4 @@
-package com.logistics.masterdataservice.dto.request;
+package com.logistics.masterdataservice.dto.request.createrequest;
 
 import com.logistics.masterdataservice.domain.enums.VehicleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Request payload for creating or updating a vehicle")
-public record VehicleRequest(
+public record VehicleCreateRequest(
 
         @Schema(description = "Unique vehicle business number", example = "VEH-0001")
         @NotBlank String vehicleNumber,

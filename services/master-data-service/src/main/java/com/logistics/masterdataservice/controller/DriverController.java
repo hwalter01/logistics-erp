@@ -2,8 +2,9 @@ package com.logistics.masterdataservice.controller;
 
 import com.logistics.masterdataservice.domain.enums.DriverStatus;
 import com.logistics.masterdataservice.domain.enums.EmploymentType;
+import com.logistics.masterdataservice.dto.request.createrequest.DriverCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.DriverUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.DriverRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.DriverSearchRequest;
 import com.logistics.masterdataservice.dto.response.DriverResponse;
 import com.logistics.masterdataservice.service.DriverService;
@@ -39,7 +40,7 @@ public class DriverController {
     @ApiResponse(responseCode = "200", description = "Driver created successfully")
     @ApiResponse(responseCode = "400", description = "Validation error")
     @ApiResponse(responseCode = "409", description = "Duplicate driver number")
-    public DriverResponse create(@Valid @RequestBody DriverRequest request) {
+    public DriverResponse create(@Valid @RequestBody DriverCreateRequest request) {
         return driverService.create(request);
     }
 
@@ -89,7 +90,7 @@ public class DriverController {
     @ApiResponse(responseCode = "409", description = "Duplicate driver number")
     public DriverResponse update(
             @PathVariable UUID driverId,
-            @Valid @RequestBody DriverRequest request
+            @Valid @RequestBody DriverUpdateRequest request
     ) {
         return driverService.update(driverId, request);
     }

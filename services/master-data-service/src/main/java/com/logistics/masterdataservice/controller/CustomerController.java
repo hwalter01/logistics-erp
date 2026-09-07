@@ -1,7 +1,8 @@
 package com.logistics.masterdataservice.controller;
 
+import com.logistics.masterdataservice.dto.request.createrequest.CustomerCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.CustomerUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.CustomerRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.CustomerSearchRequest;
 import com.logistics.masterdataservice.dto.response.CustomerResponse;
 import com.logistics.masterdataservice.service.CustomerService;
@@ -48,7 +49,7 @@ public class CustomerController {
                     description = "Customer creation payload",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = CustomerRequest.class),
+                            schema = @Schema(implementation = CustomerCreateRequest.class),
                             examples = @ExampleObject(
                                     value = """
                                             {
@@ -65,7 +66,7 @@ public class CustomerController {
                             )
                     )
             )
-            @Valid @RequestBody CustomerRequest request
+            @Valid @RequestBody CustomerCreateRequest request
     ) {
         return customerService.create(request);
     }
@@ -119,7 +120,7 @@ public class CustomerController {
     @ApiResponse(responseCode = "409", description = "Duplicate customer number")
     public CustomerResponse update(
             @PathVariable UUID customerId,
-            @Valid @RequestBody CustomerRequest request
+            @Valid @RequestBody CustomerUpdateRequest request
     ) {
         return customerService.update(customerId, request);
     }

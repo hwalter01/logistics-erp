@@ -2,8 +2,9 @@ package com.logistics.masterdataservice.service;
 
 import com.logistics.masterdataservice.domain.Address;
 import com.logistics.masterdataservice.domain.Driver;
+import com.logistics.masterdataservice.dto.request.createrequest.DriverCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.DriverUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.DriverRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.DriverSearchRequest;
 import com.logistics.masterdataservice.dto.response.DriverResponse;
 import com.logistics.masterdataservice.exception.DuplicateResourceException;
@@ -17,16 +18,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DriverService {
     private final DriverRepository driverRepository;
     private final AddressRepository addressRepository;
 
-    public DriverResponse create(DriverRequest request) {
+    @Transactional
+    public DriverResponse create(DriverCreateRequest request) {
         validateDriverNumber(request.driverNumber());
 
         Address address = loadAddress(request.addressId());
@@ -57,17 +61,17 @@ public class DriverService {
         );
     }
 
+    @Transactional
     public DriverResponse delete(UUID driverId) {
         Driver driver = loadDriver(driverId);
         driverRepository.delete(driver);
         return DriverMapper.toResponse(driver);
     }
 
-    public DriverResponse update(UUID driverId, @Valid DriverRequest request) {
+    @Transactional
+    public DriverResponse update(UUID driverId, @Valid DriverUpdateRequest request) {
         Driver driver = loadDriver(driverId);
         Address address = loadAddress(request.addressId());
-
-        validateDriverNumber(request.driverNumber());
 
         applyDriverUpdates(driver, request, address);
 
@@ -93,8 +97,7 @@ public class DriverService {
         }
     }
 
-    private void applyDriverUpdates(Driver driver, DriverRequest request, Address address) {
-        driver.setDriverNumber(request.driverNumber());
+    private void applyDriverUpdates(Driver driver, DriverUpdateRequest request, Address address) {
         driver.setFirstName(request.firstName());
         driver.setLastName(request.lastName());
         driver.setEmail(request.email());

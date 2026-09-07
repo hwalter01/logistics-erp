@@ -1,14 +1,15 @@
 package com.logistics.masterdataservice.mapper;
 
 import com.logistics.masterdataservice.domain.Vehicle;
-import com.logistics.masterdataservice.dto.request.VehicleRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.VehicleCreateRequest;
 import com.logistics.masterdataservice.dto.response.VehicleResponse;
 
 public final class VehicleMapper {
 
     private VehicleMapper() {}
 
-    public static Vehicle toEntity(VehicleRequest request) {
+
+    public static Vehicle toEntity(VehicleCreateRequest request) {
         return Vehicle.builder()
                 .vehicleNumber(request.vehicleNumber())
                 .licensePlate(request.licensePlate())

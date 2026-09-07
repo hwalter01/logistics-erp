@@ -1,8 +1,9 @@
 package com.logistics.masterdataservice.controller;
 
 import com.logistics.masterdataservice.domain.enums.VehicleStatus;
+import com.logistics.masterdataservice.dto.request.createrequest.VehicleCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.VehicleUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
-import com.logistics.masterdataservice.dto.request.VehicleRequest;
 import com.logistics.masterdataservice.dto.request.searchrequest.VehicleSearchRequest;
 import com.logistics.masterdataservice.dto.response.VehicleResponse;
 import com.logistics.masterdataservice.service.VehicleService;
@@ -38,7 +39,7 @@ public class VehicleController {
     @ApiResponse(responseCode = "200", description = "Vehicle created successfully")
     @ApiResponse(responseCode = "400", description = "Validation error")
     @ApiResponse(responseCode = "409", description = "Duplicate vehicle number or license plate")
-    public VehicleResponse create(@Valid @RequestBody VehicleRequest request) {
+    public VehicleResponse create(@Valid @RequestBody VehicleCreateRequest request) {
         return vehicleService.create(request);
     }
 
@@ -88,7 +89,7 @@ public class VehicleController {
     @ApiResponse(responseCode = "409", description = "Duplicate vehicle number or license plate")
     public VehicleResponse update(
             @PathVariable UUID vehicleId,
-            @Valid @RequestBody VehicleRequest request
+            @Valid @RequestBody VehicleUpdateRequest request
     ) {
         return vehicleService.update(vehicleId, request);
     }

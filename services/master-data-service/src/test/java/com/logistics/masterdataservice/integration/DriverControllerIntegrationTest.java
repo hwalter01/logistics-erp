@@ -2,7 +2,9 @@ package com.logistics.masterdataservice.integration;
 
 import com.logistics.masterdataservice.domain.enums.DriverStatus;
 import com.logistics.masterdataservice.domain.enums.EmploymentType;
-import com.logistics.masterdataservice.dto.request.DriverRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.DriverCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.DriverUpdateRequest;
+import com.logistics.masterdataservice.dto.response.DriverResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -36,8 +39,8 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
         addressId = "f9f9f9f9-9999-9999-9999-999999999901";
     }
 
-    private DriverRequest validDriverRequest(String driverNumber, String firstName, String lastName, String addressId) {
-        return new DriverRequest(
+    private DriverCreateRequest validDriverCreateRequest(String driverNumber, String firstName, String lastName, String addressId) {
+        return new DriverCreateRequest(
                 driverNumber,
                 firstName,
                 lastName,
@@ -58,7 +61,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     void shouldCreateDriver() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-9901", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9901", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,8 +71,8 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     void shouldReturn409WhenDriverNumberAlreadyExists() throws Exception {
-        DriverRequest firstRequest = validDriverRequest("DRV-9902", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
-        DriverRequest duplicateRequest = validDriverRequest("DRV-9902", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest firstRequest = validDriverCreateRequest("DRV-9902", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest duplicateRequest = validDriverCreateRequest("DRV-9902", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,7 +87,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     void shouldReturn404WhenAddressDoesNotExists() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-9903", "Automated Test Driver First Name", "Automated Test Driver Last Name","f9f9f9f9-9999-9999-9999-999999999999");
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9903", "Automated Test Driver First Name", "Automated Test Driver Last Name","f9f9f9f9-9999-9999-9999-999999999999");
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -101,7 +104,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //driverNumber
     @Test
     void shouldSearchDriverByDriverNumber() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-9904", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9904", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -137,7 +140,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //firstName
     @Test
     void shouldSearchDriverByFirstName() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-9905", "0000 Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9905", "0000 Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -173,7 +176,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //lastName
     @Test
     void shouldSearchDriverByLastName() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-9906", "Automated Test Driver First Name", "0000 Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9906", "Automated Test Driver First Name", "0000 Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -209,7 +212,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //employmentType
     @Test
     void shouldSearchDriverByEmploymentType() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-0907", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-0907", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -244,7 +247,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //status
     @Test
     void shouldSearchDriverByStatus() throws Exception {
-        DriverRequest driverRequest = validDriverRequest("DRV-0908", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-0908", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -278,7 +281,7 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     //driverNumber, firstName, lastName, employmentType, status
     @Test
     void shouldCombineDriverFilters() throws Exception{
-        DriverRequest driverRequest = validDriverRequest("DRV-9909", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
+        DriverCreateRequest driverRequest = validDriverCreateRequest("DRV-9909", "Automated Test Driver First Name", "Automated Test Driver Last Name", addressId);
 
         mockMvc.perform(post("/api/v1/drivers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -311,5 +314,83 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
                 .andExpect(jsonPath("$.content[0].employmentType").value(String.valueOf(driverRequest.employmentType())))
                 .andExpect(jsonPath("$.content[0].status").value(String.valueOf(driverRequest.status())))
                 .andExpect(jsonPath("$.content[0].addressId").value(String.valueOf(driverRequest.addressId())));
+    }
+
+
+    /*
+    ----------------------------------------
+    ----------------UPDATING----------------
+    ----------------------------------------
+     */
+
+    @Test
+    void shouldUpdateDriverWithoutChangingDriverNumber() throws Exception {
+        DriverCreateRequest createRequest = validDriverCreateRequest(
+                "DRV-0980",
+                "Original",
+                "Driver",
+                addressId
+        );
+
+        String createResponse = mockMvc.perform(post("/api/v1/drivers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createRequest)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        DriverResponse createdDriver =
+                objectMapper.readValue(createResponse, DriverResponse.class);
+
+        DriverUpdateRequest updateRequest = new DriverUpdateRequest(
+                "Updated",
+                "Driver",
+                "+49 170 9999999",
+                "updated.driver@example.com",
+                "B99999999",
+                EmploymentType.EMPLOYEE,
+                DriverStatus.ACTIVE,
+                UUID.fromString(addressId)
+        );
+
+        mockMvc.perform(put("/api/v1/drivers/{driverId}", createdDriver.driverId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.driverNumber").value("DRV-0980"))
+                .andExpect(jsonPath("$.firstName").value("Updated"))
+                .andExpect(jsonPath("$.lastName").value("Driver"))
+                .andExpect(jsonPath("$.phone").value("+49 170 9999999"))
+                .andExpect(jsonPath("$.email").value("updated.driver@example.com"))
+                .andExpect(jsonPath("$.licenseNumber").value("B99999999"))
+                .andExpect(jsonPath("$.employmentType").value("EMPLOYEE"))
+                .andExpect(jsonPath("$.status").value("ACTIVE"));
+    }
+
+/*
+    ----------------------------------------
+    ----------------VALIDATION--------------
+    ----------------------------------------
+     */
+
+    @Test
+    void shouldReturn400ForInvalidDriver() throws Exception {
+        DriverCreateRequest request = new DriverCreateRequest(
+                "",
+                "",
+                "",
+                "+49 170 1234567",
+                "driver@example.com",
+                "",
+                null,
+                null,
+                null
+        );
+
+        mockMvc.perform(post("/api/v1/drivers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
     }
 }

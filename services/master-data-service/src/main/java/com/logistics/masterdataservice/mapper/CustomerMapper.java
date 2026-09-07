@@ -2,7 +2,7 @@ package com.logistics.masterdataservice.mapper;
 
 import com.logistics.masterdataservice.domain.Address;
 import com.logistics.masterdataservice.domain.Customer;
-import com.logistics.masterdataservice.dto.request.CustomerRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.CustomerCreateRequest;
 import com.logistics.masterdataservice.dto.response.CustomerResponse;
 
 public final class CustomerMapper {
@@ -10,7 +10,7 @@ public final class CustomerMapper {
     private CustomerMapper() {
     }
 
-    public static Customer toEntity(CustomerRequest request, Address address) {
+     public static Customer toEntity(CustomerCreateRequest request, Address address) {
         return Customer.builder()
                 .customerNumber(request.customerNumber())
                 .name(request.name())
@@ -22,6 +22,7 @@ public final class CustomerMapper {
                 .address(address)
                 .build();
     }
+
 
     public static CustomerResponse toResponse(Customer customer) {
         return new CustomerResponse(

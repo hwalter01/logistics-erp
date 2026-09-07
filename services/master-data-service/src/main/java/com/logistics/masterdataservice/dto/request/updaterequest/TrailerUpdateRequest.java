@@ -1,4 +1,4 @@
-package com.logistics.masterdataservice.dto.request;
+package com.logistics.masterdataservice.dto.request.updaterequest;
 
 import com.logistics.masterdataservice.domain.enums.TrailerStatus;
 import com.logistics.masterdataservice.domain.enums.TrailerType;
@@ -7,10 +7,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "Request payload for creation or updating a trailer")
-public record TrailerRequest(
+public record TrailerUpdateRequest(
 
-        @Schema(description = "Unique trailer business number", example = "TRL-1001")
-        @NotBlank String trailerNumber,
+//        @Schema(description = "Unique trailer business number", example = "TRL-1001")
+//        @NotBlank String trailerNumber,
 
         @Schema(description = "Trailer license plate number", example = "HH-TR-1006")
         @NotBlank String licensePlate,

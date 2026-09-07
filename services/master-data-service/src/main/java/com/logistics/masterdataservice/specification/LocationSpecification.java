@@ -19,7 +19,12 @@ public final class LocationSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             if (request.customerId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("customerId"), request.customerId()));
+                predicates.add(
+                        criteriaBuilder.equal(
+                                root.get("customer").get("customerId"),
+                                request.customerId()
+                        )
+                );
             }
 
             if (request.name() != null && !request.name().isBlank()) {
@@ -34,13 +39,17 @@ public final class LocationSpecification {
             if (request.city() != null && !request.city().isBlank()) {
                 predicates.add(
                         criteriaBuilder.like(
-                                criteriaBuilder.lower(root.get("city")),
+                                criteriaBuilder.lower(
+                                        root.get("address").get("city")
+                                ),
                                 "%" + request.city().toLowerCase() + "%"
                         )
                 );
             }
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.and(
+                    predicates.toArray(new Predicate[0])
+            );
         };
     }
 }

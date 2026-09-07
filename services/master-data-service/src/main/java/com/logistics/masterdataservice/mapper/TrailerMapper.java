@@ -1,14 +1,14 @@
 package com.logistics.masterdataservice.mapper;
 
 import com.logistics.masterdataservice.domain.Trailer;
-import com.logistics.masterdataservice.dto.request.TrailerRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.TrailerCreateRequest;
 import com.logistics.masterdataservice.dto.response.TrailerResponse;
 
 public final class TrailerMapper {
 
     private TrailerMapper() {}
 
-    public static Trailer toEntity(TrailerRequest request) {
+    public static Trailer toEntity(TrailerCreateRequest request) {
         return Trailer.builder()
                 .trailerNumber(request.trailerNumber())
                 .licensePlate(request.licensePlate())

@@ -1,4 +1,4 @@
-package com.logistics.masterdataservice.dto.request;
+package com.logistics.masterdataservice.dto.request.createrequest;
 
 import com.logistics.masterdataservice.domain.enums.DriverStatus;
 import com.logistics.masterdataservice.domain.enums.EmploymentType;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Schema(description = "Request payload for creating or updating a driver")
-public record DriverRequest(
+public record DriverCreateRequest(
 
         @Schema(description = "Unique driver business number", example = "DRV-0001")
         @NotBlank String driverNumber,

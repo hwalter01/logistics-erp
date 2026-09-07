@@ -1,7 +1,8 @@
 package com.logistics.masterdataservice.integration;
 
 import com.logistics.masterdataservice.domain.enums.VehicleStatus;
-import com.logistics.masterdataservice.dto.request.VehicleRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.VehicleCreateRequest;
+import com.logistics.masterdataservice.dto.request.updaterequest.VehicleUpdateRequest;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
 import com.logistics.masterdataservice.dto.response.VehicleResponse;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,18 +30,18 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private VehicleRequest validVehicleRequest(String vehicleNumber, String licensePlate) {
-        return vehicleRequest(vehicleNumber, licensePlate, "Test Brand", "Test Model", VehicleStatus.ACTIVE);
+    private VehicleCreateRequest validVehicleCreateRequest(String vehicleNumber, String licensePlate) {
+        return vehicleCreateRequest(vehicleNumber, licensePlate, "Test Brand", "Test Model", VehicleStatus.ACTIVE);
     }
 
-    private VehicleRequest vehicleRequest(
+    private VehicleCreateRequest vehicleCreateRequest(
             String vehicleNumber,
             String licensePlate,
             String brand,
             String model,
             VehicleStatus status
     ) {
-        return new VehicleRequest(
+        return new VehicleCreateRequest(
                 vehicleNumber,
                 licensePlate,
                 "VIN9999",
@@ -50,7 +52,7 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
         );
     }
 
-    private void createVehicle(VehicleRequest request) throws Exception {
+    private void createVehicle(VehicleCreateRequest request) throws Exception {
         mockMvc.perform(post("/api/v1/vehicles")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -74,7 +76,7 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
         );
     }
 
-    private void assertVehiclePresent(PagedResponse<VehicleResponse> page, VehicleRequest expectedRequest) {
+    private void assertVehiclePresent(PagedResponse<VehicleResponse> page, VehicleCreateRequest expectedRequest) {
         VehicleResponse vehicle = page.content().stream()
                 .filter(v -> expectedRequest.vehicleNumber().equals(v.vehicleNumber()))
                 .findFirst()
@@ -103,7 +105,7 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldCreateDriver() throws Exception {
-        VehicleRequest vehicleRequest = validVehicleRequest("TRUCK-9901", "XX-XX-9999");
+        VehicleCreateRequest vehicleRequest = validVehicleCreateRequest("TRUCK-9901", "XX-XX-9999");
 
         mockMvc.perform(post("/api/v1/vehicles")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -113,8 +115,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturn409WhenVehicleNumberAlreadyExists() throws Exception {
-        VehicleRequest vehicleRequest = validVehicleRequest("TRUCK-9902", "XX-XX-9999");
-        VehicleRequest duplicateRequest = validVehicleRequest("TRUCK-9902", "XX-XX-9999");
+        VehicleCreateRequest vehicleRequest = validVehicleCreateRequest("TRUCK-9902", "XX-XX-9999");
+        VehicleCreateRequest duplicateRequest = validVehicleCreateRequest("TRUCK-9902", "XX-XX-9999");
 
         mockMvc.perform(post("/api/v1/vehicles")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,8 +137,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSearchVehicleByVehicleNumber() throws Exception {
-        VehicleRequest expectedVehicle = vehicleRequest("TRUCK-9903", "XX-VN-1003", "Brand-VN", "Model-VN", VehicleStatus.ACTIVE);
-        VehicleRequest otherVehicle = vehicleRequest("TRUCK-9904", "XX-VN-1004", "Other-Brand", "Other-Model", VehicleStatus.INACTIVE);
+        VehicleCreateRequest expectedVehicle = vehicleCreateRequest("TRUCK-9903", "XX-VN-1003", "Brand-VN", "Model-VN", VehicleStatus.ACTIVE);
+        VehicleCreateRequest otherVehicle = vehicleCreateRequest("TRUCK-9904", "XX-VN-1004", "Other-Brand", "Other-Model", VehicleStatus.INACTIVE);
 
         createVehicle(expectedVehicle);
         createVehicle(otherVehicle);
@@ -150,8 +152,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSearchVehicleByLicensePlate() throws Exception {
-        VehicleRequest expectedVehicle = vehicleRequest("TRUCK-9905", "XX-LP-1005", "Brand-LP", "Model-LP", VehicleStatus.ACTIVE);
-        VehicleRequest otherVehicle = vehicleRequest("TRUCK-9906", "XX-LP-1006", "Other-Brand", "Other-Model", VehicleStatus.INACTIVE);
+        VehicleCreateRequest expectedVehicle = vehicleCreateRequest("TRUCK-9905", "XX-LP-1005", "Brand-LP", "Model-LP", VehicleStatus.ACTIVE);
+        VehicleCreateRequest otherVehicle = vehicleCreateRequest("TRUCK-9906", "XX-LP-1006", "Other-Brand", "Other-Model", VehicleStatus.INACTIVE);
 
         createVehicle(expectedVehicle);
         createVehicle(otherVehicle);
@@ -164,8 +166,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSearchVehicleByBrand() throws Exception {
-        VehicleRequest expectedVehicle = vehicleRequest("TRUCK-9907", "XX-BR-1007", "Brand-Unique-Search", "Model-BR", VehicleStatus.ACTIVE);
-        VehicleRequest otherVehicle = vehicleRequest("TRUCK-9908", "XX-BR-1008", "Different-Brand", "Other-Model", VehicleStatus.ACTIVE);
+        VehicleCreateRequest expectedVehicle = vehicleCreateRequest("TRUCK-9907", "XX-BR-1007", "Brand-Unique-Search", "Model-BR", VehicleStatus.ACTIVE);
+        VehicleCreateRequest otherVehicle = vehicleCreateRequest("TRUCK-9908", "XX-BR-1008", "Different-Brand", "Other-Model", VehicleStatus.ACTIVE);
 
         createVehicle(expectedVehicle);
         createVehicle(otherVehicle);
@@ -178,8 +180,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSearchVehicleByModel() throws Exception {
-        VehicleRequest expectedVehicle = vehicleRequest("TRUCK-9909", "XX-MO-1009", "Brand-MO", "Model-Unique-Search", VehicleStatus.ACTIVE);
-        VehicleRequest otherVehicle = vehicleRequest("TRUCK-9910", "XX-MO-1010", "Other-Brand", "Different-Model", VehicleStatus.ACTIVE);
+        VehicleCreateRequest expectedVehicle = vehicleCreateRequest("TRUCK-9909", "XX-MO-1009", "Brand-MO", "Model-Unique-Search", VehicleStatus.ACTIVE);
+        VehicleCreateRequest otherVehicle = vehicleCreateRequest("TRUCK-9910", "XX-MO-1010", "Other-Brand", "Different-Model", VehicleStatus.ACTIVE);
 
         createVehicle(expectedVehicle);
         createVehicle(otherVehicle);
@@ -192,8 +194,8 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldSearchVehicleByStatus() throws Exception {
-        VehicleRequest expectedVehicle = vehicleRequest("TRUCK-9911", "XX-ST-1011", "Brand-ST", "Model-ST", VehicleStatus.INACTIVE);
-        VehicleRequest otherVehicle = vehicleRequest("TRUCK-9912", "XX-ST-1012", "Other-Brand", "Other-Model", VehicleStatus.ACTIVE);
+        VehicleCreateRequest expectedVehicle = vehicleCreateRequest("TRUCK-9911", "XX-ST-1011", "Brand-ST", "Model-ST", VehicleStatus.INACTIVE);
+        VehicleCreateRequest otherVehicle = vehicleCreateRequest("TRUCK-9912", "XX-ST-1012", "Other-Brand", "Other-Model", VehicleStatus.ACTIVE);
 
         createVehicle(expectedVehicle);
         createVehicle(otherVehicle);
@@ -204,5 +206,58 @@ public class VehicleControllerIntegrationTest extends AbstractIntegrationTest {
         assertVehicleNotPresent(page, otherVehicle.vehicleNumber());
     }
 
+
+    /*
+    ----------------------------------------
+    ----------------UPDATING----------------
+    ----------------------------------------
+     */
+
+    @Test
+    void shouldUpdateVehicleWithoutChangingVehicleNumber() throws Exception {
+        VehicleCreateRequest createRequest =
+                validVehicleCreateRequest("TRUCK-9980", "XX-UP-9980");
+
+        String createResponse = mockMvc.perform(post("/api/v1/vehicles")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createRequest)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        VehicleResponse createdVehicle =
+                objectMapper.readValue(createResponse, VehicleResponse.class);
+
+        VehicleUpdateRequest updateRequest = new VehicleUpdateRequest(
+                "XX-UP-9981",
+                "VIN-UPDATED-9980",
+                "Updated Brand",
+                "Updated Model",
+                VehicleStatus.MAINTENANCE,
+                "Updated test notes"
+        );
+
+        mockMvc.perform(put("/api/v1/vehicles/{vehicleId}", createdVehicle.vehicleId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateRequest)))
+                .andExpect(status().isOk());
+
+        PagedResponse<VehicleResponse> page =
+                searchVehicles("vehicleNumber", "TRUCK-9980");
+
+        VehicleResponse updatedVehicle = page.content().stream()
+                .filter(v -> "TRUCK-9980".equals(v.vehicleNumber()))
+                .findFirst()
+                .orElseThrow();
+
+        assertThat(updatedVehicle.vehicleNumber()).isEqualTo("TRUCK-9980");
+        assertThat(updatedVehicle.licensePlate()).isEqualTo("XX-UP-9981");
+        assertThat(updatedVehicle.vin()).isEqualTo("VIN-UPDATED-9980");
+        assertThat(updatedVehicle.brand()).isEqualTo("Updated Brand");
+        assertThat(updatedVehicle.model()).isEqualTo("Updated Model");
+        assertThat(updatedVehicle.status()).isEqualTo(VehicleStatus.MAINTENANCE);
+        assertThat(updatedVehicle.notes()).isEqualTo("Updated test notes");
+    }
 
 }

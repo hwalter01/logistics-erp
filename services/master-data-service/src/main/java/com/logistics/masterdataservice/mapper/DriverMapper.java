@@ -2,8 +2,7 @@ package com.logistics.masterdataservice.mapper;
 
 import com.logistics.masterdataservice.domain.Address;
 import com.logistics.masterdataservice.domain.Driver;
-import com.logistics.masterdataservice.domain.enums.DriverStatus;
-import com.logistics.masterdataservice.dto.request.DriverRequest;
+import com.logistics.masterdataservice.dto.request.createrequest.DriverCreateRequest;
 import com.logistics.masterdataservice.dto.response.DriverResponse;
 
 public final class DriverMapper {
@@ -11,7 +10,7 @@ public final class DriverMapper {
     private DriverMapper() {
     }
 
-    public static Driver toEntity(DriverRequest request, Address address) {
+    public static Driver toEntity(DriverCreateRequest request, Address address) {
         return Driver.builder()
                 .driverNumber(request.driverNumber())
                 .firstName(request.firstName())
