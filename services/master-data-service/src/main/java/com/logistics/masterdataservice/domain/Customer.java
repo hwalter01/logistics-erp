@@ -26,7 +26,7 @@ public class Customer extends BaseEntity {
         if (customerId == null) customerId = UUID.randomUUID();
     }
 
-    @Column(name = "customer_number", nullable = false)
+    @Column(name = "customer_number", nullable = false, updatable = false)
     private String customerNumber;
 
     @Column(name = "name", nullable = false)

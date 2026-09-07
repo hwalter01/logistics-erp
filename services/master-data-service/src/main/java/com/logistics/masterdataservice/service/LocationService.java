@@ -17,18 +17,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LocationService {
 
     private final LocationRepository locationRepository;
     private final AddressRepository addressRepository;
     private final CustomerRepository customerRepository;
 
+    /*
+     *   Write Block
+     */
+    @Transactional
     public LocationResponse create(LocationRequest request) {
         Customer customer = loadCustomer(request.customerId());
         Address address = loadAddress(request.addressId());
@@ -39,16 +44,32 @@ public class LocationService {
         return LocationMapper.toResponse(saved);
     }
 
-    public LocationResponse getById(UUID locationId) {
+    @Transactional
+    public LocationResponse delete(UUID locationId) {
         Location location = loadLocation(locationId);
+        locationRepository.delete(location);
         return LocationMapper.toResponse(location);
     }
 
-    public List<LocationResponse> getAll() {
-        return locationRepository.findAll()
-                .stream()
-                .map(LocationMapper::toResponse)
-                .toList();
+    @Transactional
+    public LocationResponse update(UUID locationId, LocationRequest request) {
+        Location location = loadLocation(locationId);
+        Customer customer = loadCustomer(request.customerId());
+        Address address = loadAddress(request.addressId());
+
+        applyLocationUpdates(location, request, address, customer);
+
+        Location saved = locationRepository.save(location);
+
+        return LocationMapper.toResponse(saved);
+    }
+
+    /*
+     *  Read Block
+     */
+    public LocationResponse getById(UUID locationId) {
+        Location location = loadLocation(locationId);
+        return LocationMapper.toResponse(location);
     }
 
     public PagedResponse<LocationResponse> search(LocationSearchRequest request, Pageable pageable) {
@@ -67,24 +88,9 @@ public class LocationService {
         );
     }
 
-    public LocationResponse delete(UUID locationId) {
-        Location location = loadLocation(locationId);
-        locationRepository.delete(location);
-        return LocationMapper.toResponse(location);
-    }
-
-    public LocationResponse update(UUID locationId, LocationRequest request) {
-        Location location = loadLocation(locationId);
-        Customer customer = loadCustomer(request.customerId());
-        Address address = loadAddress(request.addressId());
-
-        applyLocationUpdates(location, request, address, customer);
-
-        Location saved = locationRepository.save(location);
-
-        return LocationMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private Location loadLocation(UUID locationId) {
         return locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location",  locationId));

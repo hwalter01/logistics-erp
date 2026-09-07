@@ -26,6 +26,9 @@ public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
 
+    /*
+     *   Write Block
+     */
     @Transactional
     public VehicleResponse create(VehicleCreateRequest request){
         validateVehicleNumber(request.vehicleNumber());
@@ -34,8 +37,25 @@ public class VehicleService {
         return VehicleMapper.toResponse(saved);
     }
 
+    @Transactional
+    public VehicleResponse delete(UUID vehicleId) {
+        Vehicle vehicle = loadVehicle(vehicleId);
+        vehicleRepository.delete(vehicle);
+        return VehicleMapper.toResponse(vehicle);
+    }
 
+    @Transactional
+    public VehicleResponse update(UUID vehicleId, VehicleUpdateRequest request){
+        Vehicle vehicle = loadVehicle(vehicleId);
 
+        applyVehicleUpdates(vehicle, request);
+        Vehicle saved  = vehicleRepository.save(vehicle);
+        return VehicleMapper.toResponse(saved);
+    }
+
+    /*
+     *  Read Block
+     */
     public VehicleResponse getById(UUID vehicleId){
         Vehicle vehicle = loadVehicle(vehicleId);
         return VehicleMapper.toResponse(vehicle);
@@ -57,22 +77,9 @@ public class VehicleService {
         );
     }
 
-    @Transactional
-    public VehicleResponse delete(UUID vehicleId) {
-        Vehicle vehicle = loadVehicle(vehicleId);
-        vehicleRepository.delete(vehicle);
-        return VehicleMapper.toResponse(vehicle);
-    }
-
-    @Transactional
-    public VehicleResponse update(UUID vehicleId, VehicleUpdateRequest request){
-        Vehicle vehicle = loadVehicle(vehicleId);
-
-        applyVehicleUpdates(vehicle, request);
-        Vehicle saved  = vehicleRepository.save(vehicle);
-        return VehicleMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private void validateVehicleNumber(String vehicleNumber) {
         if (vehicleRepository.existsByVehicleNumber(vehicleNumber)) {
             throw new DuplicateResourceException(

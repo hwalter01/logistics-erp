@@ -28,7 +28,7 @@ public class Driver extends BaseEntity {
         if (driverId == null) driverId = UUID.randomUUID();
     }
 
-    @Column(name = "driver_number", nullable = false)
+    @Column(name = "driver_number", nullable = false, updatable = false)
     private String driverNumber;
 
     @Column(name = "first_name", nullable = false)

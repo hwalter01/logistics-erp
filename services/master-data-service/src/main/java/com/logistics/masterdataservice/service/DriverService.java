@@ -29,6 +29,9 @@ public class DriverService {
     private final DriverRepository driverRepository;
     private final AddressRepository addressRepository;
 
+    /*
+     *   Write Block
+     */
     @Transactional
     public DriverResponse create(DriverCreateRequest request) {
         validateDriverNumber(request.driverNumber());
@@ -40,6 +43,27 @@ public class DriverService {
         return DriverMapper.toResponse(saved);
     }
 
+    @Transactional
+    public DriverResponse delete(UUID driverId) {
+        Driver driver = loadDriver(driverId);
+        driverRepository.delete(driver);
+        return DriverMapper.toResponse(driver);
+    }
+
+    @Transactional
+    public DriverResponse update(UUID driverId, @Valid DriverUpdateRequest request) {
+        Driver driver = loadDriver(driverId);
+        Address address = loadAddress(request.addressId());
+
+        applyDriverUpdates(driver, request, address);
+
+        Driver saved =  driverRepository.save(driver);
+        return DriverMapper.toResponse(saved);
+    }
+
+    /*
+     *  Read Block
+     */
     public DriverResponse getById(UUID driverId) {
         Driver driver = loadDriver(driverId);
         return DriverMapper.toResponse(driver);
@@ -61,24 +85,9 @@ public class DriverService {
         );
     }
 
-    @Transactional
-    public DriverResponse delete(UUID driverId) {
-        Driver driver = loadDriver(driverId);
-        driverRepository.delete(driver);
-        return DriverMapper.toResponse(driver);
-    }
-
-    @Transactional
-    public DriverResponse update(UUID driverId, @Valid DriverUpdateRequest request) {
-        Driver driver = loadDriver(driverId);
-        Address address = loadAddress(request.addressId());
-
-        applyDriverUpdates(driver, request, address);
-
-        Driver saved =  driverRepository.save(driver);
-        return DriverMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private Driver loadDriver(UUID driverId) {
         return driverRepository.findById(driverId)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver",  driverId));

@@ -8,9 +8,6 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "Request payload for creating or updating a vehicle")
 public record VehicleUpdateRequest(
 
-//        @Schema(description = "Unique vehicle business number", example = "VEH-0001")
-//        @NotBlank String vehicleNumber,
-
         @Schema(description = "Vehicle license plate number", example = "HH-NC-1001")
         @NotBlank String licensePlate,
 

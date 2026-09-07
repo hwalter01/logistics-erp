@@ -11,21 +11,47 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AddressService {
 
     private final AddressRepository addressRepository;
 
+    /*
+     *   Write Block
+     */
+    @Transactional
     public AddressResponse create(AddressRequest request) {
         Address address = AddressMapper.toEntity(request);
         Address saved = addressRepository.save(address);
         return AddressMapper.toResponse(saved);
     }
 
+    @Transactional
+    public AddressResponse delete(UUID addressId) {
+        Address address = loadAddress(addressId);
+        addressRepository.delete(address);
+        return AddressMapper.toResponse(address);
+    }
+
+    @Transactional
+    public AddressResponse update(UUID addressId, AddressRequest request) {
+        Address address = loadAddress(addressId);
+
+        applyAddressUpdates(address, request);
+
+        Address saved = addressRepository.save(address);
+        return AddressMapper.toResponse(saved);
+    }
+
+    /*
+     *  Read Block
+     */
     public AddressResponse getById(UUID addressId) {
         Address address = loadAddress(addressId);
         return AddressMapper.toResponse(address);
@@ -46,21 +72,9 @@ public class AddressService {
         );
     }
 
-    public AddressResponse delete(UUID addressId) {
-        Address address = loadAddress(addressId);
-        addressRepository.delete(address);
-        return AddressMapper.toResponse(address);
-    }
-
-    public AddressResponse update(UUID addressId, AddressRequest request) {
-        Address address = loadAddress(addressId);
-
-        applyAddressUpdates(address, request);
-
-        Address saved = addressRepository.save(address);
-        return AddressMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private Address loadAddress(UUID addressId) {
         return addressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address",  addressId));

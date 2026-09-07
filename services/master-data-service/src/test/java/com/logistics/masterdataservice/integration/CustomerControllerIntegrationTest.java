@@ -1,7 +1,9 @@
 package com.logistics.masterdataservice.integration;
 
+import com.logistics.masterdataservice.dto.request.AddressRequest;
 import com.logistics.masterdataservice.dto.request.createrequest.CustomerCreateRequest;
 import com.logistics.masterdataservice.dto.request.updaterequest.CustomerUpdateRequest;
+import com.logistics.masterdataservice.dto.response.AddressResponse;
 import com.logistics.masterdataservice.dto.response.CustomerResponse;
 import com.logistics.masterdataservice.dto.response.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +40,28 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     private String addressId;
 
     @BeforeEach
-    void setup() {
-        addressId = "f9f9f9f9-9999-9999-9999-999999999901";
+    void setup() throws Exception {
+        AddressRequest addressRequest = new AddressRequest(
+                "Customer Test Street",
+                "1",
+                "99001",
+                "Customer Test City",
+                "Germany",
+                "Created by integration test"
+        );
+
+        String response = mockMvc.perform(post("/api/v1/addresses")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addressRequest)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        AddressResponse addressResponse =
+                objectMapper.readValue(response, AddressResponse.class);
+
+        addressId = addressResponse.addressId().toString();
     }
 
     private CustomerCreateRequest validCustomerCreateRequest(String customerNumber, String name, String vatNumber, String addressId) {

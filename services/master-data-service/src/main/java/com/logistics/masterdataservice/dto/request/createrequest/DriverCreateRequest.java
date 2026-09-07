@@ -36,6 +36,6 @@ public record DriverCreateRequest(
         @NotNull DriverStatus status,
 
         @Schema(description = "Referenced address ID", example = "f0616a1a-95eb-4b6b-9151-92427595a4c6")
-        UUID addressId
+        @NotNull UUID addressId
 ) {
 }

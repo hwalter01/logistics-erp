@@ -2,8 +2,10 @@ package com.logistics.masterdataservice.integration;
 
 import com.logistics.masterdataservice.domain.enums.DriverStatus;
 import com.logistics.masterdataservice.domain.enums.EmploymentType;
+import com.logistics.masterdataservice.dto.request.AddressRequest;
 import com.logistics.masterdataservice.dto.request.createrequest.DriverCreateRequest;
 import com.logistics.masterdataservice.dto.request.updaterequest.DriverUpdateRequest;
+import com.logistics.masterdataservice.dto.response.AddressResponse;
 import com.logistics.masterdataservice.dto.response.DriverResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,8 +37,28 @@ public class DriverControllerIntegrationTest extends AbstractIntegrationTest{
     private String addressId;
 
     @BeforeEach
-    public void setup() {
-        addressId = "f9f9f9f9-9999-9999-9999-999999999901";
+    void setup() throws Exception {
+        AddressRequest addressRequest = new AddressRequest(
+                "Driver Test Street",
+                "1",
+                "99002",
+                "Driver Test City",
+                "Germany",
+                "Created by driver integration test"
+        );
+
+        String response = mockMvc.perform(post("/api/v1/addresses")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addressRequest)))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        AddressResponse addressResponse =
+                objectMapper.readValue(response, AddressResponse.class);
+
+        addressId = addressResponse.addressId().toString();
     }
 
     private DriverCreateRequest validDriverCreateRequest(String driverNumber, String firstName, String lastName, String addressId) {

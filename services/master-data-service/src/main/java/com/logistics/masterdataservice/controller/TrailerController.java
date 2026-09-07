@@ -84,7 +84,6 @@ public class TrailerController {
     @Operation(summary = "Update trailer")
     @ApiResponse(responseCode = "200", description = "Trailer updated successfully")
     @ApiResponse(responseCode = "404", description = "Trailer not found")
-    @ApiResponse(responseCode = "409", description = "Duplicate trailer number")
     public TrailerResponse update(
             @PathVariable UUID trailerId,
             @Valid @RequestBody TrailerUpdateRequest request

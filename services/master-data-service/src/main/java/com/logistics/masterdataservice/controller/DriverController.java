@@ -87,7 +87,6 @@ public class DriverController {
     @Operation(summary = "Update driver")
     @ApiResponse(responseCode = "200", description = "Driver updated successfully")
     @ApiResponse(responseCode = "404", description = "Driver or address not found")
-    @ApiResponse(responseCode = "409", description = "Duplicate driver number")
     public DriverResponse update(
             @PathVariable UUID driverId,
             @Valid @RequestBody DriverUpdateRequest request

@@ -117,7 +117,6 @@ public class CustomerController {
     @Operation(summary = "Update customer")
     @ApiResponse(responseCode = "200", description = "Customer updated successfully")
     @ApiResponse(responseCode = "404", description = "Customer or address not found")
-    @ApiResponse(responseCode = "409", description = "Duplicate customer number")
     public CustomerResponse update(
             @PathVariable UUID customerId,
             @Valid @RequestBody CustomerUpdateRequest request

@@ -75,21 +75,6 @@ public class CustomerService {
         return CustomerMapper.toResponse(customer);
     }
 
-    public PagedResponse<CustomerResponse> getAll(Pageable pageable) {
-        Page<CustomerResponse> page = customerRepository.findAll(pageable)
-                .map(CustomerMapper::toResponse);
-
-        return new PagedResponse<>(
-                page.getContent(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast()
-        );
-    }
-
     public PagedResponse<CustomerResponse> search(CustomerSearchRequest request, Pageable pageable) {
         Page<CustomerResponse> page = customerRepository
                 .findAll(CustomerSpecification.withFilters(request), pageable)
@@ -104,16 +89,6 @@ public class CustomerService {
                 page.isFirst(),
                 page.isLast()
         );
-    }
-
-    public void applyCustomerUpdates(Customer customer, CustomerUpdateRequest request, Address address){
-        customer.setName(request.name());
-        customer.setVatNumber(request.vatNumber());
-        customer.setContactEmail(request.contactEmail());
-        customer.setContactPhone(request.contactPhone());
-        customer.setPodRequired(request.podRequired());
-        customer.setAddress(address);
-        customer.setNotes(request.notes());
     }
 
     /*
@@ -135,5 +110,15 @@ public class CustomerService {
                     "Customer number already exists: " + customerNumber
             );
         }
+    }
+
+    private void applyCustomerUpdates(Customer customer, CustomerUpdateRequest request, Address address){
+        customer.setName(request.name());
+        customer.setVatNumber(request.vatNumber());
+        customer.setContactEmail(request.contactEmail());
+        customer.setContactPhone(request.contactPhone());
+        customer.setPodRequired(request.podRequired());
+        customer.setAddress(address);
+        customer.setNotes(request.notes());
     }
 }

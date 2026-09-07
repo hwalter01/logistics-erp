@@ -86,7 +86,6 @@ public class VehicleController {
     @Operation(summary = "Update vehicle")
     @ApiResponse(responseCode = "200", description = "Vehicle updated successfully")
     @ApiResponse(responseCode = "404", description = "Vehicle not found")
-    @ApiResponse(responseCode = "409", description = "Duplicate vehicle number or license plate")
     public VehicleResponse update(
             @PathVariable UUID vehicleId,
             @Valid @RequestBody VehicleUpdateRequest request

@@ -27,7 +27,7 @@ public class Vehicle extends BaseEntity {
         if (vehicleId == null) vehicleId = UUID.randomUUID();
     }
 
-    @Column(name = "vehicle_number", nullable = false)
+    @Column(name = "vehicle_number", nullable = false, updatable = false)
     private String vehicleNumber;
 
     @Column(name = "license_plate", nullable = false)

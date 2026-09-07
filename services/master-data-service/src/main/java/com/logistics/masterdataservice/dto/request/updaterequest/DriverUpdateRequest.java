@@ -11,9 +11,6 @@ import java.util.UUID;
 @Schema(description = "Request payload for creating or updating a driver")
 public record DriverUpdateRequest(
 
-//        @Schema(description = "Unique driver business number", example = "DRV-0001")
-//        @NotBlank String driverNumber,
-
         @Schema(description = "Drivers first legal name", example = "Max")
         @NotBlank String firstName,
 
@@ -36,6 +33,6 @@ public record DriverUpdateRequest(
         @NotNull DriverStatus status,
 
         @Schema(description = "Referenced address ID", example = "f0616a1a-95eb-4b6b-9151-92427595a4c6")
-        UUID addressId
+        @NotNull UUID addressId
 ) {
 }

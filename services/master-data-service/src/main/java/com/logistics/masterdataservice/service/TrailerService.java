@@ -25,6 +25,9 @@ import java.util.UUID;
 public class TrailerService {
     private final TrailerRepository trailerRepository;
 
+    /*
+     *   Write Block
+     */
     @Transactional
     public TrailerResponse create(TrailerCreateRequest request){
         validateTrailerNumber(request.trailerNumber());
@@ -33,6 +36,25 @@ public class TrailerService {
         return TrailerMapper.toResponse(saved);
     }
 
+    @Transactional
+    public TrailerResponse delete(UUID trailerId) {
+        Trailer trailer = loadTrailer(trailerId);
+        trailerRepository.delete(trailer);
+        return TrailerMapper.toResponse(trailer);
+    }
+
+    @Transactional
+    public TrailerResponse update(UUID trailerId, TrailerUpdateRequest request) {
+        Trailer trailer = loadTrailer(trailerId);
+
+        applyTrailerUpdates(trailer, request);
+        Trailer saved  = trailerRepository.save(trailer);
+        return TrailerMapper.toResponse(saved);
+    }
+
+    /*
+     *  Read Block
+     */
     public TrailerResponse getById(UUID trailerId){
         Trailer trailer = loadTrailer(trailerId);
 
@@ -55,22 +77,9 @@ public class TrailerService {
         );
     }
 
-    @Transactional
-    public TrailerResponse delete(UUID trailerId) {
-        Trailer trailer = loadTrailer(trailerId);
-        trailerRepository.delete(trailer);
-        return TrailerMapper.toResponse(trailer);
-    }
-
-    @Transactional
-    public TrailerResponse update(UUID trailerId, TrailerUpdateRequest request) {
-        Trailer trailer = loadTrailer(trailerId);
-
-        applyTrailerUpdates(trailer, request);
-        Trailer saved  = trailerRepository.save(trailer);
-        return TrailerMapper.toResponse(saved);
-    }
-
+    /*
+     *  Internal Helpers
+     */
     private void validateTrailerNumber(String trailerNumber) {
         if (trailerRepository.existsByTrailerNumber(trailerNumber)) {
             throw new DuplicateResourceException(

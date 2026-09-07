@@ -9,9 +9,6 @@ import jakarta.validation.constraints.NotNull;
 @Schema(description = "Request payload for creation or updating a trailer")
 public record TrailerUpdateRequest(
 
-//        @Schema(description = "Unique trailer business number", example = "TRL-1001")
-//        @NotBlank String trailerNumber,
-
         @Schema(description = "Trailer license plate number", example = "HH-TR-1006")
         @NotBlank String licensePlate,
 

@@ -28,7 +28,7 @@ public class Trailer extends BaseEntity {
         if (trailerId == null) trailerId = UUID.randomUUID();
     }
 
-    @Column(name = "trailer_number", nullable = false)
+    @Column(name = "trailer_number", nullable = false, updatable = false)
     private String trailerNumber;
 
     @Column(name = "license_plate", nullable = false)
