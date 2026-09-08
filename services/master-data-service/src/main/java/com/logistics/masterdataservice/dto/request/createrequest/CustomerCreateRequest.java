@@ -3,6 +3,8 @@ package com.logistics.masterdataservice.dto.request.createrequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -35,6 +37,12 @@ public record CustomerCreateRequest(
 
         @Schema(description = "Referenced address ID", example = "f0616a1a-95eb-4b6b-9151-92427595a4c6")
         @NotNull
-        UUID addressId
+        UUID addressId,
+
+        @NotBlank
+        @Size(min = 2, max = 8)
+        @Pattern(regexp = "^[A-Z0-9]+$", message = "must contain only uppercase letters and numbers")
+        @Schema(description = "Unique immutable customer short code", example = "NS")
+        String shortCode
 ) {
 }

@@ -31,8 +31,10 @@ public record CustomerResponse(
     boolean podRequired,
 
     @Schema(description = "Referenced address ID", example = "f0616a1a-95eb-4b6b-9151-92427595a4c6")
-    UUID addressId
+    UUID addressId,
 
+    @Schema(description = "Short identifier")
+    String shortCode
 ){
 
 }

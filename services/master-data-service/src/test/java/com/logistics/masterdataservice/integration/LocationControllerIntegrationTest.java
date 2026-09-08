@@ -68,7 +68,8 @@ public class LocationControllerIntegrationTest extends AbstractIntegrationTest {
                 "+49 123 999999",
                 "Location integration test customer",
                 true,
-                addressId
+                addressId,
+                "TCA" + suffix.substring(0, 5)
         );
 
         String response = mockMvc.perform(post("/api/v1/customers")

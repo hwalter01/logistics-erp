@@ -64,7 +64,7 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
         addressId = addressResponse.addressId().toString();
     }
 
-    private CustomerCreateRequest validCustomerCreateRequest(String customerNumber, String name, String vatNumber, String addressId) {
+    private CustomerCreateRequest validCustomerCreateRequest(String customerNumber, String name, String vatNumber, String addressId, String shortCode) {
         return new CustomerCreateRequest(
                 customerNumber,
                 name,
@@ -73,7 +73,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 "+49 123 4567",
                 "notes",
                 true,
-                UUID.fromString(addressId)
+                UUID.fromString(addressId),
+                shortCode
         );
     }
 
@@ -86,7 +87,7 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     //shouldCreateCustomer
     @Test
     void shouldCreateCustomer() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9991", "Automated Test Customer", "DE123456789", addressId);
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9991", "Automated Test Customer", "DE123456789", addressId,"TC01");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -97,8 +98,24 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     //shouldReturn409WhenCustomerNumberAlreadyExists
     @Test
     void shouldReturn409WhenCustomerNumberAlreadyExists() throws Exception {
-        CustomerCreateRequest firstRequest = validCustomerCreateRequest("CUST-9992", "Automated Test Customer", "DE123456789", addressId);
-        CustomerCreateRequest duplicateRequest = validCustomerCreateRequest("CUST-9992", "Automated Test Customer 2", "DE123456789", addressId);
+        CustomerCreateRequest firstRequest = validCustomerCreateRequest("CUST-9992", "Automated Test Customer", "DE123456789", addressId,"TC02");
+        CustomerCreateRequest duplicateRequest = validCustomerCreateRequest("CUST-9992", "Automated Test Customer 2", "DE123456789", addressId,"TC03");
+
+        mockMvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(firstRequest)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(duplicateRequest)))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void shouldReturn404WhenCustomerShortCodeAlreadyExist() throws Exception {
+        CustomerCreateRequest firstRequest = validCustomerCreateRequest("CUST-9900", "Automated Test Customer", "DE123456789", addressId,"TC04");
+        CustomerCreateRequest duplicateRequest = validCustomerCreateRequest("CUST-9901", "Automated Test Customer 2", "DE123456789", addressId,"TC04");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +131,7 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     //shouldReturn404WhenAddressDoesNotExist
     @Test
     void shouldReturn404WhenAddressDoesNotExist() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9993", "Automated Test Customer", "DE123456789","f9f9f9f9-9999-9999-9999-999999999999");
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9993", "Automated Test Customer", "DE123456789","f9f9f9f9-9999-9999-9999-999999999999","TC05");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,7 +149,7 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     //customerNumber
     @Test
     void shouldSearchCustomerByCustomerNumber() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9994", "Customer number check", "DE123456789", addressId);
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9994", "Customer number check", "DE123456789", addressId,"TC06");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -160,13 +177,14 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.content[0].contactPhone").value(request.contactPhone()))
                 .andExpect(jsonPath("$.content[0].notes").value(request.notes()))
                 .andExpect(jsonPath("$.content[0].podRequired").value(request.podRequired()))
-                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()));
+                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()))
+                .andExpect(jsonPath("$.content[0].shortCode").value(request.shortCode()));
     }
 
     //vatNumber
     @Test
     void shouldSearchCustomerByVatNumber() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9995", "Vat number check", "DE000000000", addressId);
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9995", "Vat number check", "DE000000000", addressId,"TC07");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -180,9 +198,6 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("size", "10")
                         .param("sort", "vatNumber"))
                 .andExpect(status().isOk())
-                //.andExpect(jsonPath("$.content.length()").value(1))
-                //.andExpect(jsonPath("$.totalElements").value(1))
-                //.andExpect(jsonPath("$.totalPages").value(1))
                 .andExpect(jsonPath("$.page").value(0))
                 .andExpect(jsonPath("$.size").value(10))
                 .andExpect(jsonPath("$.first").value(true))
@@ -194,13 +209,14 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.content[0].contactPhone").value(request.contactPhone()))
                 .andExpect(jsonPath("$.content[0].notes").value(request.notes()))
                 .andExpect(jsonPath("$.content[0].podRequired").value(request.podRequired()))
-                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()));
+                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()))
+                .andExpect(jsonPath("$.content[0].shortCode").value(request.shortCode()));
     }
 
     //name
     @Test
     void shouldSearchCustomerByName() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9996", "0000 name check", "DE123456789", addressId);
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9996", "0000 name check", "DE123456789", addressId,"TC08");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -227,7 +243,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.content[0].contactPhone").value(request.contactPhone()))
                 .andExpect(jsonPath("$.content[0].notes").value(request.notes()))
                 .andExpect(jsonPath("$.content[0].podRequired").value(request.podRequired()))
-                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()));
+                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()))
+                .andExpect(jsonPath("$.content[0].shortCode").value(request.shortCode()));
     }
 
     //podRequired
@@ -238,7 +255,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                         "CUST-POD-TRUE-9997",
                         "POD Required Customer",
                         "DE123456789",
-                        addressId
+                        addressId,
+                        "TC09"
                 );
 
         CustomerCreateRequest noPodCustomer =
@@ -250,7 +268,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                         "+49 123456",
                         "No POD",
                         false,
-                        UUID.fromString(addressId)
+                        UUID.fromString(addressId),
+                        "TC10"
                 );
 
         mockMvc.perform(post("/api/v1/customers")
@@ -294,7 +313,7 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
     //customerNumber, vatNumber, name, podRequired
     @Test
     void shouldCombineCustomerFilters() throws Exception {
-        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9998", "0003 combined check", "DE123456789",addressId);
+        CustomerCreateRequest request = validCustomerCreateRequest("CUST-9998", "0003 combined check", "DE123456789",addressId,"TC11");
 
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -321,7 +340,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.content[0].contactPhone").value(request.contactPhone()))
                 .andExpect(jsonPath("$.content[0].notes").value(request.notes()))
                 .andExpect(jsonPath("$.content[0].podRequired").value(request.podRequired()))
-                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()));
+                .andExpect(jsonPath("$.content[0].addressId").value(request.addressId().toString()))
+                .andExpect(jsonPath("$.content[0].shortCode").value(request.shortCode()));
     }
 
 
@@ -337,7 +357,8 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 "CUST-9980",
                 "Original Customer",
                 "DE111111111",
-                addressId
+                addressId,
+                "TC12"
         );
 
         String createResponse = mockMvc.perform(post("/api/v1/customers")
@@ -390,7 +411,28 @@ public class CustomerControllerIntegrationTest extends AbstractIntegrationTest {
                 "+49 123 4567",
                 "invalid customer test",
                 null,
-                null
+                null,
+                "TC13"
+        );
+
+        mockMvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400ForInvalidShortCode() throws Exception {
+        CustomerCreateRequest request = new CustomerCreateRequest(
+                "",
+                "",
+                "DE123456789",
+                "test@example.com",
+                "+49 123 4567",
+                "invalid customer test",
+                null,
+                null,
+                "TC-14"
         );
 
         mockMvc.perform(post("/api/v1/customers")

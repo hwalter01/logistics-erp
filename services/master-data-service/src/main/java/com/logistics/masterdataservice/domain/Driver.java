@@ -54,7 +54,7 @@ public class Driver extends BaseEntity {
     @Column(name = "status", nullable = false)
     private DriverStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 }

@@ -20,6 +20,7 @@ public final class CustomerMapper {
                 .notes(request.notes())
                 .podRequired(request.podRequired())
                 .address(address)
+                .shortCode(request.shortCode())
                 .build();
     }
 
@@ -34,7 +35,8 @@ public final class CustomerMapper {
                 customer.getContactPhone(),
                 customer.getNotes(),
                 customer.isPodRequired(),
-                customer.getAddress().getAddressId()
+                customer.getAddress().getAddressId(),
+                customer.getShortCode()
         );
     }
 }

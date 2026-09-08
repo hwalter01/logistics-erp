@@ -50,4 +50,7 @@ public class Customer extends BaseEntity {
 
     @Column(name = "pod_required", nullable = false)
     private boolean podRequired ;
+
+    @Column(name = "short_code", nullable = false, updatable = false, length = 8)
+    private String shortCode;
 }

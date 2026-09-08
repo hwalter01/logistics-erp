@@ -26,8 +26,11 @@ CREATE TABLE md.customers (
                               created_at TIMESTAMPTZ NOT NULL,
                               updated_at TIMESTAMPTZ NOT NULL,
                               row_version BIGINT NOT NULL,
+
                               CONSTRAINT fk_customers_address
-                                  FOREIGN KEY (address_id) REFERENCES md.addresses(address_id),
+                                  FOREIGN KEY (address_id)
+                                      REFERENCES md.addresses(address_id),
+
                               CONSTRAINT ux_customers_customer_number
                                   UNIQUE (customer_number)
 );
@@ -44,10 +47,14 @@ CREATE TABLE md.locations (
                               created_at TIMESTAMPTZ NOT NULL,
                               updated_at TIMESTAMPTZ NOT NULL,
                               row_version BIGINT NOT NULL,
+
                               CONSTRAINT fk_locations_customer
-                                  FOREIGN KEY (customer_id) REFERENCES md.customers(customer_id),
+                                  FOREIGN KEY (customer_id)
+                                      REFERENCES md.customers(customer_id),
+
                               CONSTRAINT fk_locations_address
-                                  FOREIGN KEY (address_id) REFERENCES md.addresses(address_id)
+                                  FOREIGN KEY (address_id)
+                                      REFERENCES md.addresses(address_id)
 );
 
 CREATE TABLE md.drivers (
@@ -64,8 +71,11 @@ CREATE TABLE md.drivers (
                             created_at TIMESTAMPTZ NOT NULL,
                             updated_at TIMESTAMPTZ NOT NULL,
                             row_version BIGINT NOT NULL,
+
                             CONSTRAINT fk_drivers_address
-                                FOREIGN KEY (address_id) REFERENCES md.addresses(address_id),
+                                FOREIGN KEY (address_id)
+                                    REFERENCES md.addresses(address_id),
+
                             CONSTRAINT ux_drivers_driver_number
                                 UNIQUE (driver_number)
 );
@@ -82,10 +92,9 @@ CREATE TABLE md.vehicles (
                              created_at TIMESTAMPTZ NOT NULL,
                              updated_at TIMESTAMPTZ NOT NULL,
                              row_version BIGINT NOT NULL,
+
                              CONSTRAINT ux_vehicles_vehicle_number
-                                 UNIQUE (vehicle_number),
-                             CONSTRAINT ux_vehicles_license_plate
-                                 UNIQUE (license_plate)
+                                 UNIQUE (vehicle_number)
 );
 
 CREATE TABLE md.trailers (
@@ -98,6 +107,7 @@ CREATE TABLE md.trailers (
                              created_at TIMESTAMPTZ NOT NULL,
                              updated_at TIMESTAMPTZ NOT NULL,
                              row_version BIGINT NOT NULL,
+
                              CONSTRAINT ux_trailers_trailer_number
                                  UNIQUE (trailer_number)
 );

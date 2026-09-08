@@ -13,6 +13,9 @@ import com.logistics.masterdataservice.mapper.CustomerMapper;
 import com.logistics.masterdataservice.repository.AddressRepository;
 import com.logistics.masterdataservice.repository.CustomerRepository;
 import com.logistics.masterdataservice.specification.CustomerSpecification;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +38,8 @@ public class CustomerService {
     @Transactional
     public CustomerResponse create(CustomerCreateRequest request){
         validateCustomerNumber(request.customerNumber());
+
+        validateCustomerShortCode(request.shortCode());
 
         Address address = loadAddress(request.addressId());
 
@@ -108,6 +113,14 @@ public class CustomerService {
         if (customerRepository.existsByCustomerNumber(customerNumber)) {
             throw new DuplicateResourceException(
                     "Customer number already exists: " + customerNumber
+            );
+        }
+    }
+
+    private void validateCustomerShortCode(String customerShortCode) {
+        if (customerRepository.existsByShortCode(customerShortCode)) {
+            throw new DuplicateResourceException(
+                    "Customer short code already exists: " + customerShortCode
             );
         }
     }

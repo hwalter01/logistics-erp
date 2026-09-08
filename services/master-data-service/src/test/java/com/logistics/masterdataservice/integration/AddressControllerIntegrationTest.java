@@ -201,7 +201,8 @@ public class AddressControllerIntegrationTest extends AbstractIntegrationTest {
                 "+49 123 9980",
                 "References address for delete test",
                 true,
-                address.addressId()
+                address.addressId(),
+                "TC40"
         );
 
         mockMvc.perform(post("/api/v1/customers")
