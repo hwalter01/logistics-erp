@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
-@Schema(description = "Request payload for creating or updating a customer")
+@Schema(description = "Request payload for creating a customer")
 public record CustomerCreateRequest(
 
         @Schema(description = "Unique customer business number", example = "CUST-1001")
